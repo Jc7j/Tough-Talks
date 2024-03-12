@@ -13,9 +13,9 @@ async function main() {
         create: {
           content: 'Damn this is crazy',
           timeTillExpire,
-        }
-      } 
-    }
+        },
+      },
+    },
   })
   console.log(user)
 }
