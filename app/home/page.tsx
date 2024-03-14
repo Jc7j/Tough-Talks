@@ -6,7 +6,11 @@ export default async function Page() {
   const { isAuthenticated } = getKindeServerSession()
 
   return (await isAuthenticated()) ? (
-    <div>
+    <div className="h-screen">
+      <div className="flex justify-center pt-5 lg:pt-20">
+        {' '}
+        Pciking container
+      </div>
       <PostsContainer />
     </div>
   ) : (
