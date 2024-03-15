@@ -4,6 +4,9 @@ const prisma = new PrismaClient()
 
 export default async function fetchPosts() {
   try {
+    console.log('Fetching revenue data...')
+    await new Promise((resolve) => setTimeout(resolve, 3000))
+
     const data = await prisma.post.findMany()
     console.log(data)
     return data

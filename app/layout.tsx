@@ -6,7 +6,7 @@ import { ThemeProvider } from '@/components/theme-provider'
 const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
-  title: 'ToughTalks - Stress Dumper',
+  title: 'ToughTalks',
   description: 'Created by Jason Chiang',
 }
 

@@ -1,25 +1,30 @@
 'use client'
 
-import { calculateValuesFromUUID} from '../../lib/utils'
+import { calculateValuesFromUUID } from '../../lib/utils'
 import { Card } from '../ui/card'
 import { useEffect } from 'react'
 
-export default function PostCard({ id, content }: { id: string, content: string }) {
+export default function PostCard({
+  id,
+  content,
+}: {
+  id: string
+  content: string
+}) {
   const keyframeRanges = calculateValuesFromUUID(id)
 
-    // Generate four random positions for the animation
-    const positions = Array.from({ length: 4 }, () => ({
-      x: Math.floor(Math.random() * 100), // Between 5% and 95%
-      y: Math.floor(Math.random() * 100), // Between 5% and 95%
-    }));
-  
-  
+  // Generate four random positions for the animation
+  const positions = Array.from({ length: 4 }, () => ({
+    x: Math.floor(Math.random() * 100), // Between 5% and 95%
+    y: Math.floor(Math.random() * 100), // Between 5% and 95%
+  }))
+
   useEffect(() => {
-    const styleId = 'dynamic-keyframes-style-' + id; // Unique ID for each PostCard
+    const styleId = 'dynamic-keyframes-style-' + id // Unique ID for each PostCard
     if (!document.getElementById(styleId)) {
-      const style = document.createElement('style');
-      style.id = styleId;
-      document.head.appendChild(style);
+      const style = document.createElement('style')
+      style.id = styleId
+      document.head.appendChild(style)
 
       const keyframes = `
       @keyframes dynamicMove${id} {
@@ -30,17 +35,22 @@ export default function PostCard({ id, content }: { id: string, content: string 
         80% { transform: translate(${positions[0].x}%, ${positions[0].y}%); }
         100% { transform: translate(-200%, -200%); }
       }
-    `;
+    `
 
-    style.innerHTML = keyframes;
+      style.innerHTML = keyframes
     }
   }, [id, keyframeRanges, positions])
 
   const animationStyle = {
-    animation: `dynamicMove${id} 10s infinite linear`
+    animation: `dynamicMove${id} 10s infinite linear`,
   }
 
   return (
-    <Card className={"flex justify-center items-center absolute lg:w-1/6 p-3"} style={animationStyle}><p className='text-xs'>{content}</p></Card>
+    <Card
+      className={'flex justify-center items-center absolute lg:w-1/6 p-3'}
+      style={animationStyle}
+    >
+      <p className="text-xs">{content}</p>
+    </Card>
   )
 }
