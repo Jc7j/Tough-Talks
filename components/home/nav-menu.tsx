@@ -20,8 +20,16 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@/components/ui/dialog'
-import { Drawer, DrawerContent, DrawerTrigger } from '@/components//ui/drawer'
+import {
+  Drawer,
+  DrawerContent,
+  DrawerDescription,
+  DrawerHeader,
+  DrawerTitle,
+  DrawerTrigger,
+} from '@/components//ui/drawer'
 import CreatePost from './create-post'
+import { Button } from '../ui/button'
 
 export default function NavMenu() {
   const isMobile = useMediaQuery('(max-width: 767px)')
@@ -38,27 +46,39 @@ export default function NavMenu() {
                 pathname === '/home' && 'bg-accent text-accent-foreground'
               )}
             >
-              Home
+              <Button variant="outline">Home</Button>
             </NavigationMenuLink>
           </Link>
         </NavigationMenuItem>
         <NavigationMenuItem className={clsx(navigationMenuTriggerStyle())}>
           {isMobile ? (
             <Drawer>
-              <DrawerTrigger asChild>Post</DrawerTrigger>
-              <DrawerContent>Test</DrawerContent>
+              <DrawerTrigger asChild>
+                <Button variant="outline">Post</Button>
+              </DrawerTrigger>
+              <DrawerContent>
+                <DrawerHeader>
+                  <DrawerTitle>Post a Tweet</DrawerTitle>
+                  <DrawerDescription>
+                    Write down whatever youre feeling. Only once per 24 hours.
+                  </DrawerDescription>
+                </DrawerHeader>
+                <CreatePost />
+              </DrawerContent>
             </Drawer>
           ) : (
             <Dialog>
-              <DialogTrigger>Post</DialogTrigger>
+              <DialogTrigger>
+                <Button variant="outline">Post</Button>
+              </DialogTrigger>
               <DialogContent>
                 <DialogHeader>
                   <DialogTitle>Post a Tweet</DialogTitle>
                   <DialogDescription>
                     Write down whatever youre feeling. Only once per 24 hours.
                   </DialogDescription>
-                  <CreatePost />
                 </DialogHeader>
+                <CreatePost />
               </DialogContent>
             </Dialog>
           )}
@@ -71,7 +91,7 @@ export default function NavMenu() {
                 pathname === '/settings' && 'bg-accent text-accent-foreground'
               )}
             >
-              Settings
+              <Button variant="outline">Settings</Button>
             </NavigationMenuLink>
           </Link>
         </NavigationMenuItem>

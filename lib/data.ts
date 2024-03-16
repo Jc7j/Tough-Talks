@@ -43,7 +43,7 @@ export async function postContent(
   const userExists = await prisma.user.findUnique({ where: { id } })
   if (!userExists) {
     return { message: 'User not found. Failed to create post' }
-  } 
+  }
 
   const { content } = validatedFields.data
   const timeTillExpire = new Date(Date.now() + 24 * 60 * 60 * 1000)
@@ -60,7 +60,7 @@ export async function postContent(
     revalidatePath('/home')
     redirect('/home')
   } catch (err) {
-    // @TODO The post is created, but we still catch an error for some reason.. 
+    // @TODO The post is created, but we still catch an error for some reason..
     console.error('Database operation failed:', err)
     return {
       message: 'DB Error. Failed to create post',
