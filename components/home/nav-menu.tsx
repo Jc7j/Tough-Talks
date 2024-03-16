@@ -12,22 +12,20 @@ import {
   NavigationMenuList,
   navigationMenuTriggerStyle,
 } from '@/components/ui/navigation-menu'
-
-// Navigation Menu
-// Inside NavgiationMenuContent is where we'll have the isMobile conditional
-
-// Menu will consist of: Home (just a link), Settings (a Link to Settings page...), a Create Post (make this a modal or post depending on screen)
-// Lets add what we are currently active on, so have CSS ready for that
-
-// This is same as :hover from '@components/ui/navigation-menu'
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from '@/components/ui/dialog'
+import { Drawer, DrawerContent, DrawerTrigger } from '@/components//ui/drawer'
+import CreatePost from './create-post'
 
 export default function NavMenu() {
   const isMobile = useMediaQuery('(max-width: 767px)')
   const pathname = usePathname()
-
-  function activeLinkStyling(name: string): string | null {
-    return pathname === name ? 'bg-accent text-accent-foreground' : null
-  }
 
   return (
     <NavigationMenu>
@@ -37,24 +35,40 @@ export default function NavMenu() {
             <NavigationMenuLink
               className={clsx(
                 navigationMenuTriggerStyle(),
-                activeLinkStyling('/home')
+                pathname === '/home' && 'bg-accent text-accent-foreground'
               )}
             >
               Home
             </NavigationMenuLink>
           </Link>
         </NavigationMenuItem>
-        <NavigationMenuItem
-          className={clsx(navigationMenuTriggerStyle())}
-        >
-          Post
+        <NavigationMenuItem className={clsx(navigationMenuTriggerStyle())}>
+          {isMobile ? (
+            <Drawer>
+              <DrawerTrigger asChild>Post</DrawerTrigger>
+              <DrawerContent>Test</DrawerContent>
+            </Drawer>
+          ) : (
+            <Dialog>
+              <DialogTrigger>Post</DialogTrigger>
+              <DialogContent>
+                <DialogHeader>
+                  <DialogTitle>Post a Tweet</DialogTitle>
+                  <DialogDescription>
+                    Write down whatever youre feeling. Only once per 24 hours.
+                  </DialogDescription>
+                  <CreatePost />
+                </DialogHeader>
+              </DialogContent>
+            </Dialog>
+          )}
         </NavigationMenuItem>
         <NavigationMenuItem>
           <Link href="/settings" legacyBehavior passHref>
             <NavigationMenuLink
               className={clsx(
                 navigationMenuTriggerStyle(),
-                activeLinkStyling('/settings')
+                pathname === '/settings' && 'bg-accent text-accent-foreground'
               )}
             >
               Settings

@@ -1,4 +1,4 @@
-import fetchPosts from '@/lib/data'
+import { fetchPosts } from '@/lib/data'
 import PostCard from './post-card'
 
 export default async function PostsContainer() {

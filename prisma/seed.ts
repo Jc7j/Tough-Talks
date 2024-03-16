@@ -7,12 +7,11 @@ async function main() {
 
   const user = await prisma.user.create({
     data: {
-      email: 'test4@test.com',
-      // @ts-ignore
+      id: 'kp_03b3fdf709fd4ae2a477378e597f17dc',
+      email: 'chiangjason67@gmail.com',
       posts: {
         create: {
-          content:
-            'Nulla quis orci odio. Sed tincidunt sit amet quam eget porttitor. Suspendisse vitae imperdiet lacus. Phasellus in odio non lacus sollicitudin pharetra vel non dolor. Pellentesque interdum leo sit amet aliquet ultrices. Sed lacinia, orci sit amet dignissim malesuada, libero ante eleifend odio, eget cursus massa nam.',
+          content: 'massa nam.',
           timeTillExpire,
         },
       },
