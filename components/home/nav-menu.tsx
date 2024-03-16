@@ -63,7 +63,9 @@ export default function NavMenu() {
                     Write down whatever youre feeling. Only once per 24 hours.
                   </DrawerDescription>
                 </DrawerHeader>
-                <CreatePost />
+                <div className="px-5 pb-5">
+                  <CreatePost />
+                </div>
               </DrawerContent>
             </Drawer>
           ) : (
