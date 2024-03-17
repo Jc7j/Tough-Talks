@@ -40,13 +40,15 @@ export default function NavMenu() {
       <NavigationMenuList>
         <NavigationMenuItem>
           <Link href="/home" legacyBehavior passHref>
-            <NavigationMenuLink
-              className={clsx(
-                navigationMenuTriggerStyle(),
-                pathname === '/home' && 'bg-accent text-accent-foreground'
-              )}
-            >
-              <Button variant="outline">Home</Button>
+            <NavigationMenuLink className={navigationMenuTriggerStyle()}>
+              <Button
+                variant="outline"
+                className={clsx(
+                  pathname === '/home' && 'bg-accent text-accent-foreground'
+                )}
+              >
+                Home
+              </Button>
             </NavigationMenuLink>
           </Link>
         </NavigationMenuItem>
@@ -93,7 +95,14 @@ export default function NavMenu() {
                 pathname === '/settings' && 'bg-accent text-accent-foreground'
               )}
             >
-              <Button variant="outline">Settings</Button>
+              <Button
+                variant="outline"
+                className={clsx(
+                  pathname === '/settings' && 'bg-accent text-accent-foreground'
+                )}
+              >
+                Settings
+              </Button>
             </NavigationMenuLink>
           </Link>
         </NavigationMenuItem>

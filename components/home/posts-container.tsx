@@ -5,9 +5,9 @@ export default async function PostsContainer() {
   const posts = await fetchPosts()
 
   return (
-    <div className="flex justify-center items-center relative p-6 h-screen w-screen">
+    <div className="grid grid-cols-6  gap-4 p-10">
       {posts.map((post) => (
-        <PostCard key={post.id} id={post.id} content={post.content} />
+        <PostCard key={post.id} id={post.id} content={post.content} timeTillExpire={post.timeTillExpire}/>
       ))}
     </div>
   )

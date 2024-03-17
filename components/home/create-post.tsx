@@ -46,8 +46,13 @@ export default function CreatePost() {
       {/* {state.message && (
         <p className="mt-2 text-sm text-red-500">{state.message}</p>
       )} */}
-      <div className="w-full flex items-center justify-between">
-        <p className="text-sm">{charCount}/316</p>
+      <div className="text-sm w-full flex items-center justify-between">
+        <span className="flex">
+          <p className={`${charCount > 316 ? 'text-red-500' : ''}`}>
+            {charCount}
+          </p>
+          <p>/316</p>
+        </span>
         <Button variant="default" type="submit">
           Send it
         </Button>

@@ -29,7 +29,7 @@ export default async function Home() {
       <div className="flex flex-col justify-center items-center w-full h-3/5 lg:h-full">
         <h3 className="text-2xl lg:text-3xl font-extrabold text-center">
           {' '}
-          Tweet out any stresses youre currently going through
+          Tweet whatver you want
         </h3>
         <LoginLink>Sign in</LoginLink>
         <RegisterLink>Sign up</RegisterLink>

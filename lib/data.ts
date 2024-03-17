@@ -3,7 +3,7 @@
 import { z } from 'zod'
 import { PrismaClient } from '@prisma/client'
 import { redirect } from 'next/navigation'
-import { revalidatePath } from 'next/cache'
+import { revalidatePath, unstable_noStore as noStore } from 'next/cache'
 
 const prisma = new PrismaClient()
 
@@ -71,8 +71,6 @@ export async function postContent(
 export async function fetchPosts() {
   try {
     console.log('Fetching revenue data...')
-    await new Promise((resolve) => setTimeout(resolve, 3000))
-
     const data = await prisma.post.findMany()
 
     return data
