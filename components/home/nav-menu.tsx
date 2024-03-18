@@ -76,12 +76,6 @@ export default function NavMenu() {
                 <Button variant="outline">Post</Button>
               </DialogTrigger>
               <DialogContent>
-                <DialogHeader>
-                  <DialogTitle>Post a Tweet</DialogTitle>
-                  <DialogDescription>
-                    Write down whatever youre feeling. Only once per 24 hours.
-                  </DialogDescription>
-                </DialogHeader>
                 <CreatePost />
               </DialogContent>
             </Dialog>
