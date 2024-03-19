@@ -2,10 +2,10 @@
 
 import { useState, useEffect } from 'react'
 import debounce from 'lodash/debounce'
-import { useKindeBrowserClient } from '@kinde-oss/kinde-auth-nextjs'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
+import { useRouter } from 'next/navigation'
 
 import {
   Form,
@@ -28,7 +28,7 @@ const CreatePostFormSchema = z.object({
 
 export default function CreatePost() {
   const [charCount, setCharCount] = useState(0)
-  const { user } = useKindeBrowserClient()
+  const router = useRouter()
 
   const form = useForm<z.infer<typeof CreatePostFormSchema>>({
     resolver: zodResolver(CreatePostFormSchema),
@@ -61,22 +61,20 @@ export default function CreatePost() {
 
   async function onSubmitHandler(data: z.infer<typeof CreatePostFormSchema>) {
     try {
-      const updatedData = { ...data, userId: user?.id }
       const res = await fetch('/api/posts', {
         method: 'POST',
         credentials: 'include',
         headers: {
           'Content-Type': 'applcation/json',
         },
-        body: JSON.stringify(updatedData),
+        body: JSON.stringify(data),
       })
 
       if (!res.ok) {
         throw new Error('Network response was not ok')
       }
 
-      const postData = await res.json()
-      console.log('Post created:', postData)
+      router.push('/home')
     } catch (err) {
       console.error('Failed to submit form:', err)
     }

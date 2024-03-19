@@ -2,13 +2,8 @@
 
 import React, { useEffect, useState } from 'react'
 
+import { Post } from '@/lib/definitions'
 import PostCard from './post-card'
-
-type Post = {
-  id: string
-  content: string
-  timeTillExpire: string
-}
 
 export default function PostsContainer() {
   const [posts, setPosts] = useState<Post[]>([])
@@ -32,7 +27,6 @@ export default function PostsContainer() {
         setPosts(data)
       } catch (error) {
         console.error('Failed to fetch posts:', error)
-        // Here, you might want to handle errors, e.g., show a user-friendly message
       }
     }
 

@@ -1,6 +1,10 @@
 import { NextResponse } from 'next/server'
+import { getKindeServerSession } from '@kinde-oss/kinde-auth-nextjs/server'
 
 import prisma from '@/lib/prisma'
+import { Post } from '@/lib/definitions'
+
+const { getUser } = getKindeServerSession()
 
 export async function GET() {
   try {
@@ -18,9 +22,13 @@ export async function GET() {
 
 export async function POST(req: Request) {
   try {
-    const { content, userId } = await req.json()
+    const kindeUser = await getUser()
+    console.log("kindeuserrr post:", kindeUser)
+    const { content } = (await req.json()) as Post
 
-    const userExists = await prisma.user.findUnique({ where: { id: userId } })
+    const userExists = await prisma.user.findUnique({
+      where: { id: kindeUser?.id },
+    })
 
     if (!userExists) {
       return NextResponse.json(
@@ -34,13 +42,13 @@ export async function POST(req: Request) {
       data: {
         content,
         timeTillExpire,
-        authorId: userId,
+        authorId: kindeUser?.id || '',
       },
     })
 
     return NextResponse.json({ message: 'Post is created' }, { status: 200 })
   } catch (error) {
-    // console.error('Failed to create post:', error)
+    console.error('Failed to create post:', error)
     return NextResponse.json(
       { error: 'Internal server error' },
       { status: 500 }
