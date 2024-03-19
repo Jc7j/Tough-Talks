@@ -14,7 +14,7 @@ export default function PostsContainer() {
   const [posts, setPosts] = useState<Post[]>([])
 
   useEffect(() => {
-      async function fetchPosts() {
+    async function fetchPosts() {
       try {
         const response = await fetch('/api/posts', {
           method: 'GET',
@@ -23,8 +23,11 @@ export default function PostsContainer() {
           },
         })
         if (!response.ok) {
-          throw new Error('Network response was not ok. Unable to fetch posts for homepage')
+          throw new Error(
+            'Network response was not ok. Unable to fetch posts for homepage'
+          )
         }
+
         const data: Post[] = await response.json()
         setPosts(data)
       } catch (error) {
@@ -37,17 +40,17 @@ export default function PostsContainer() {
   }, [])
 
   return (
-    <div className="grid grid-cols-2 lg:grid-cols-6 gap-3 p-3 lg:p-10 items-start">
+    <div className="grid grid-cols-2 lg:grid-cols-5 gap-3 p-3 lg:p-10 items-start">
       {posts.map((post) => {
-
-      return (
-        <PostCard
-          key={post.id}
-          id={post.id}
-          content={post.content}
-          timeTillExpire={new Date(post.timeTillExpire)}
-        />
-      )})}
+        return (
+          <PostCard
+            key={post.id}
+            id={post.id}
+            content={post.content}
+            timeTillExpire={new Date(post.timeTillExpire)}
+          />
+        )
+      })}
     </div>
   )
 }

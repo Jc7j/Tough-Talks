@@ -18,7 +18,7 @@ export default function PostCard({
     <Card
       className={`flex flex-col justify-around items-center p-2 bg-red-50 ${onHover}`}
     >
-      <p className="text-xs text-center break-words w-full">{content}</p>
+      <p className="text-center break-words w-full">{content}</p>
       <CountdownTimer targetDate={timeTillExpire} />
     </Card>
   )

@@ -12,9 +12,7 @@ export default async function Page() {
   const { isAuthenticated } = getKindeServerSession()
 
   return (await isAuthenticated()) ? (
-    <Suspense fallback={<RevenueChartSkeleton />}>
-      <PostsContainer />
-    </Suspense>
+    <PostsContainer />
   ) : (
     <>
       Not protected.... You need to be authenticated{' '}

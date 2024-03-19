@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useCallback } from 'react'
+import { useState, useEffect } from 'react'
 import debounce from 'lodash/debounce'
 import { useKindeBrowserClient } from '@kinde-oss/kinde-auth-nextjs'
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -20,9 +20,10 @@ import { Button } from '@/components/ui/button'
 import { Textarea } from '@/components/ui/textarea'
 
 const CreatePostFormSchema = z.object({
-  content: z.string().max(316, {
-    message: 'Max character count is 316',
-  }),
+  content: z
+    .string()
+    .min(1, 'Content is required')
+    .max(316, 'Max characters is 316'),
 })
 
 export default function CreatePost() {
@@ -31,23 +32,43 @@ export default function CreatePost() {
 
   const form = useForm<z.infer<typeof CreatePostFormSchema>>({
     resolver: zodResolver(CreatePostFormSchema),
+    defaultValues: {
+      content: '',
+    },
   })
 
-  const updateCharCount = useCallback(
-    debounce((value) => {
-      setCharCount(value.length)
-    }, 300),
-    []
-  )
+  const {
+    control,
+    watch,
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = form
 
-  async function onSubmit(data: z.infer<typeof CreatePostFormSchema>) {
+  const debouncedUpdateCharCount = debounce((content) => {
+    setCharCount(content.length)
+  }, 300)
+
+  useEffect(() => {
+    const subscription = watch((value, { name, type }) => {
+      if (name === 'content') {
+        debouncedUpdateCharCount(value.content)
+      }
+    })
+
+    return () => subscription.unsubscribe()
+  }, [watch, debouncedUpdateCharCount])
+
+  async function onSubmitHandler(data: z.infer<typeof CreatePostFormSchema>) {
     try {
+      const updatedData = { ...data, userId: user?.id }
       const res = await fetch('/api/posts', {
         method: 'POST',
+        credentials: 'include',
         headers: {
           'Content-Type': 'applcation/json',
         },
-        body: JSON.stringify(data),
+        body: JSON.stringify(updatedData),
       })
 
       if (!res.ok) {
@@ -63,31 +84,27 @@ export default function CreatePost() {
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)}>
+      <form onSubmit={handleSubmit(onSubmitHandler)}>
         <FormField
-          control={form.control}
-          name="content"
-          render={({ field: { onChange } }) => (
+          control={control}
+          // name="content"
+          {...register('content')}
+          render={({ field }) => (
             <FormItem>
               <FormLabel>Post a Tweet</FormLabel>
               <FormDescription>
                 Write down whatever youre feeling. Only once per 24 hours
               </FormDescription>
               <FormControl>
-                <Textarea
-                  onChange={(e) => updateCharCount(e.target.value)}
-                  placeholder="What am I feeling"
-                />
+                <Textarea placeholder="What am I feeling" {...field} rows={7} />
               </FormControl>
+              <FormMessage>{errors.content?.message}</FormMessage>
             </FormItem>
           )}
         />
-        {form.formState.errors.content && (
-          <p>{form.formState.errors.content.message}</p>
-        )}
         <div className="text-sm w-full flex items-center justify-between mt-3">
           <span className="flex">
-            <p className={`${charCount > 316 ? 'text-red-500' : ''}`}>
+            <p className={`${charCount > 316 ? 'text-destructive' : ''}`}>
               {charCount}
             </p>
             <p>/316</p>
