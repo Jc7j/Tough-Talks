@@ -1,17 +1,17 @@
-'use client'
-
-import { useEffect } from 'react'
+import { getKindeServerSession } from '@kinde-oss/kinde-auth-nextjs/server'
+import { redirect } from 'next/navigation'
 
 import PostsContainer from '@/components/home/posts-container'
 
-import { useUserPersonalInfoStore } from '@/lib/store/userPersonalInfoStore'
+export default async function Page() {
+  const { isAuthenticated } = getKindeServerSession()
 
-export default function Page() {
-  const { fetchUserPersonalInfo } = useUserPersonalInfoStore()
+  if (!(await isAuthenticated())) {
+    return redirect('/')
+  }
 
-  useEffect(() => {
-    fetchUserPersonalInfo()
-  }, [fetchUserPersonalInfo])
-
-  return <PostsContainer />
+  return (
+  <>
+  <PostsContainer />
+  </>)
 }

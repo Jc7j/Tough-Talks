@@ -30,8 +30,6 @@ export const useUserPersonalInfoStore = create<userPersonalInfo>((set) => ({
       }
 
       const data: User = await res.json()
-
-      console.log('data', data)
       set({ name: data.name, email: data.email })
     } catch (err) {
       console.error('Network response not ok. Unable to fetch user info', err)

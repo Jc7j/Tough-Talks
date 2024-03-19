@@ -6,7 +6,7 @@ import { getKindeServerSession } from '@kinde-oss/kinde-auth-nextjs/server'
 import { redirect } from 'next/navigation'
 import Image from 'next/image'
 
-import { ModeToggle } from '../components/ui/theme-toggle'
+// import { ModeToggle } from '../components/ui/theme-toggle'
 
 export default async function Home() {
   const { isAuthenticated } = getKindeServerSession()

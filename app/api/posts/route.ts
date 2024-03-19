@@ -23,7 +23,6 @@ export async function GET() {
 export async function POST(req: Request) {
   try {
     const kindeUser = await getUser()
-    console.log('kindeuserrr post:', kindeUser)
     const { content, timeTillExpire } = (await req.json()) as Post
 
     const userExists = await prisma.user.findUnique({

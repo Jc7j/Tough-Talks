@@ -28,18 +28,17 @@ const UpdateSettingsFormSchema = z.object({
 
 export default function BasicInfo() {
   const [savedSuccessMessage, setSavedSuccessMessage] = useState('')
-  const { name, email, setUserPersonalInfo, fetchUserPersonalInfo } =
-    useUserPersonalInfoStore()
+  const { name, email, fetchUserPersonalInfo } = useUserPersonalInfoStore()
 
-  // useEffect(() => {
-  //   fetchUserPersonalInfo()
-  // }, [fetchUserPersonalInfo])
+  useEffect(() => {
+   fetchUserPersonalInfo()
+  }, [name, email, fetchUserPersonalInfo])
 
   const form = useForm<z.infer<typeof UpdateSettingsFormSchema>>({
     resolver: zodResolver(UpdateSettingsFormSchema),
     defaultValues: {
-      name: name || '',
-      email: email || '',
+      name,
+      email,
     },
   })
 
@@ -69,7 +68,7 @@ export default function BasicInfo() {
       const userData = await res.json()
       setSavedSuccessMessage(userData.message)
     } catch (err) {
-      console.log('Failed to update user info', err)
+      console.error('Failed to update user info', err)
     }
   }
 
@@ -101,6 +100,7 @@ export default function BasicInfo() {
               </FormItem>
             )}
           />
+
           <FormField
             control={control}
             {...register('email')}
@@ -127,7 +127,7 @@ export default function BasicInfo() {
             )}
           />
           {savedSuccessMessage && <p>Saved Succesfully!</p>}
-          <Button variant="default" type="submit" >
+          <Button variant="default" type="submit">
             Send it
           </Button>
         </form>
