@@ -1,24 +1,17 @@
+'use client'
+
+import { useEffect } from 'react'
+
 import PostsContainer from '@/components/home/posts-container'
-import { LoginLink } from '@kinde-oss/kinde-auth-nextjs/components'
-import { getKindeServerSession } from '@kinde-oss/kinde-auth-nextjs/server'
-import { Suspense } from 'react'
 
-export function RevenueChartSkeleton() {
-  return <div>Fetching....</div>
-}
+import { useUserPersonalInfoStore } from '@/lib/store/userPersonalInfoStore'
 
-// @TODO Move Login  side if not Authenticated to layout.tsx
-export default async function Page() {
-  const { isAuthenticated } = getKindeServerSession()
+export default function Page() {
+  const { fetchUserPersonalInfo } = useUserPersonalInfoStore()
 
-  return (await isAuthenticated()) ? (
-    <PostsContainer />
-  ) : (
-    <>
-      Not protected.... You need to be authenticated{' '}
-      <LoginLink>
-        <strong>Login</strong>
-      </LoginLink>
-    </>
-  )
+  useEffect(() => {
+    fetchUserPersonalInfo()
+  }, [fetchUserPersonalInfo])
+
+  return <PostsContainer />
 }
