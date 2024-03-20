@@ -22,6 +22,21 @@ export async function GET() {
 
 export async function POST(req: Request) {
   try {
+    // Check if the user already has an active post
+    // const activePost = await prisma.post.findFirst({
+    //   where: {
+    //     authorId: userId,
+    //     timeTillExpire: { // Double check this, if `now` is greater than what the post has
+    //       gt: now,
+    //     },
+    //   },
+    // });
+
+    // if (activePost) {
+    //   return res.status(400).json({ error: "You can only have one active post at a time." });
+    // }
+
+    // If no active post, create a new post
     const kindeUser = await getUser()
     const { content, timeTillExpire } = (await req.json()) as Post
 

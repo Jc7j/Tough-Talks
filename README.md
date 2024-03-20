@@ -11,6 +11,28 @@ To run this (Only runnable in local if you have the .env.local file):
 Todo:
 
 1. Anon tweeting?
-2. Use a cron job to check every hour any timeTillExpired is expired then delete expired ones ?
-3. Add functionality to fetchCardData and this will be dynamic (streaming) as cards will be continuously added and deleted.
-4. Ensure Users can only post twice or whatever amount of days. I think user model needs a `dateOfFirstPost`
+2. Ensure Users can only post twice or whatever amount of days. I think user model needs a `dateOfFirstPost`
+
+3. Use Pusher
+   1. Use Pusher to subscribe the posts and update the display
+   2. Use Pushed to subsribe the posts and delete if needed
+
+Maybe:
+
+```
+  useEffect(() => {
+    channel.bind('post-created', function(data) {
+      setPosts((prevPosts) => [...prevPosts, data.post]);
+    });
+
+    channel.bind('post-expired', function(data) {
+      setPosts((prevPosts) => prevPosts.filter(post => post.id !== data.postId));
+    });
+
+    // Cleanup
+    return () => {
+      channel.unbind_all();
+      channel.unsubscribe();
+    };
+    })
+```

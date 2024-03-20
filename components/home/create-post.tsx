@@ -30,7 +30,7 @@ const CreatePostFormSchema = z.object({
 export default function CreatePost() {
   const [charCount, setCharCount] = useState(0)
   const router = useRouter()
-  const {open, setOpen} = useDialogOpen()
+  const { open, setOpen } = useDialogOpen()
 
   const form = useForm<z.infer<typeof CreatePostFormSchema>>({
     resolver: zodResolver(CreatePostFormSchema),
@@ -52,7 +52,7 @@ export default function CreatePost() {
   }, 300)
 
   useEffect(() => {
-    const subscription = watch((value, { name, type }) => {
+    const subscription = watch((value, { name }) => {
       if (name === 'content') {
         debouncedUpdateCharCount(value.content)
       }

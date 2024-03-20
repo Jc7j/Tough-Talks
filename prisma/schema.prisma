@@ -15,7 +15,7 @@ model User {
 }
 
 model Post {
-  id        String   @id @default(uuid())
+  id        Int      @id @default(autoincrement())
   content   String @db.VarChar(316)
   timeTillExpire DateTime
   createdAt DateTime @default(now())

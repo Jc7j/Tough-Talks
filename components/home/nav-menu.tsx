@@ -12,11 +12,7 @@ import {
   NavigationMenuList,
   navigationMenuTriggerStyle,
 } from '@/components/ui/navigation-menu'
-import {
-  Dialog,
-  DialogContent,
-  DialogTrigger,
-} from '@/components/ui/dialog'
+import { Dialog, DialogContent, DialogTrigger } from '@/components/ui/dialog'
 import {
   Drawer,
   DrawerContent,
@@ -32,7 +28,7 @@ import { useDialogOpen } from '@/lib/store/useDialogOpen'
 export default function NavMenu() {
   const isMobile = useMediaQuery('(max-width: 767px)')
   const pathname = usePathname()
-  const {open, setOpen} = useDialogOpen()
+  const { open, setOpen } = useDialogOpen()
 
   return (
     <NavigationMenu>
@@ -53,17 +49,11 @@ export default function NavMenu() {
         </NavigationMenuItem>
         <NavigationMenuItem className={clsx(navigationMenuTriggerStyle())}>
           {isMobile ? (
-            <Drawer>
+            <Drawer open={open} onOpenChange={setOpen}>
               <DrawerTrigger asChild>
                 <Button variant="outline">Post</Button>
               </DrawerTrigger>
               <DrawerContent>
-                <DrawerHeader>
-                  <DrawerTitle>Post a Tweet</DrawerTitle>
-                  <DrawerDescription>
-                    Write down whatever youre feeling. Only once per 24 hours.
-                  </DrawerDescription>
-                </DrawerHeader>
                 <div className="px-5 pb-5">
                   <CreatePost />
                 </div>
