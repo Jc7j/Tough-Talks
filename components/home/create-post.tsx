@@ -18,6 +18,7 @@ import {
 } from '@/components/ui/form'
 import { Button } from '@/components/ui/button'
 import { Textarea } from '@/components/ui/textarea'
+import { useDialogOpen } from '@/lib/store/useDialogOpen'
 
 const CreatePostFormSchema = z.object({
   content: z
@@ -29,6 +30,7 @@ const CreatePostFormSchema = z.object({
 export default function CreatePost() {
   const [charCount, setCharCount] = useState(0)
   const router = useRouter()
+  const {open, setOpen} = useDialogOpen()
 
   const form = useForm<z.infer<typeof CreatePostFormSchema>>({
     resolver: zodResolver(CreatePostFormSchema),
@@ -76,6 +78,7 @@ export default function CreatePost() {
         throw new Error('Network response was not ok')
       }
 
+      setOpen(false)
       router.push('/home')
     } catch (err) {
       console.error('Failed to submit form:', err)

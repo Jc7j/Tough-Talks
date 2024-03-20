@@ -31,7 +31,7 @@ export default function BasicInfo() {
   const { name, email, fetchUserPersonalInfo } = useUserPersonalInfoStore()
 
   useEffect(() => {
-   fetchUserPersonalInfo()
+    fetchUserPersonalInfo()
   }, [name, email, fetchUserPersonalInfo])
 
   const form = useForm<z.infer<typeof UpdateSettingsFormSchema>>({

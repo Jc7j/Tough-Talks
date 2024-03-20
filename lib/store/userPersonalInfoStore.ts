@@ -1,13 +1,6 @@
 import { create } from 'zustand'
 
-import { User } from '../definitions'
-
-type userPersonalInfo = {
-  name: User['name']
-  email: User['email']
-  setUserPersonalInfo: (name: User['name'], email: User['email']) => void
-  fetchUserPersonalInfo: () => Promise<void>
-}
+import { User, userPersonalInfo } from '../definitions'
 
 export const useUserPersonalInfoStore = create<userPersonalInfo>((set) => ({
   name: '',

@@ -15,9 +15,6 @@ import {
 import {
   Dialog,
   DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
   DialogTrigger,
 } from '@/components/ui/dialog'
 import {
@@ -30,10 +27,12 @@ import {
 } from '@/components//ui/drawer'
 import CreatePost from './create-post'
 import { Button } from '../ui/button'
+import { useDialogOpen } from '@/lib/store/useDialogOpen'
 
 export default function NavMenu() {
   const isMobile = useMediaQuery('(max-width: 767px)')
   const pathname = usePathname()
+  const {open, setOpen} = useDialogOpen()
 
   return (
     <NavigationMenu>
@@ -71,7 +70,7 @@ export default function NavMenu() {
               </DrawerContent>
             </Drawer>
           ) : (
-            <Dialog>
+            <Dialog open={open} onOpenChange={setOpen}>
               <DialogTrigger>
                 <Button variant="outline">Post</Button>
               </DialogTrigger>
