@@ -29,20 +29,27 @@ export default function PostsContainer() {
           )
         }
         const data: Post[] = await response.json()
-        setPosts(data)
+        setPosts(data.reverse())
       } catch (error) {
         console.error('Failed to fetch posts:', error)
       }
     }
 
     fetchPosts()
-    
+
     // Real-time subscription to the posts
     pusherClient.subscribe('posts-channel')
     pusherClient.bind('post-created', (data: any) => {
-      setPosts((prevPosts) => [{...data, isNew: true}, ...prevPosts])
+      setPosts((prevPosts) => [{ ...data, isNew: true }, ...prevPosts])
+      setTimeout(() => {
+        setPosts((prevPosts) =>
+          prevPosts.map((post) =>
+            post.id === data.id ? { ...post, isNew: false } : post
+          )
+        )
+      }, 1000) // Match animation duration
     })
-    
+
     return () => {
       pusherClient.unbind_all()
       pusherClient.unsubscribe('posts-channel')
@@ -87,7 +94,7 @@ export default function PostsContainer() {
           }
         })
       },
-      { threshold: [0, 0.1, 1] }
+      { threshold: 0.1 }
     )
 
     posts.forEach((_, index) => {

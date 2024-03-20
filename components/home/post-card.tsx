@@ -1,14 +1,15 @@
 'use client'
 
+import { memo } from 'react'
 import { Card } from '../ui/card'
 import CountdownTimer from './countdown-timer'
 
-const onHover = `transition duration-800 ease hover:bg-transparent hover:scale-105`
+const onHover = `transition duration-800 ease hover:scale-105`
 
 // Maybe let user choose a color for the background and text??
 // Maybe allow user to separate by \n then itll add a new line as a break
 
-export default function PostCard({
+export default memo(function PostCard({
   content,
   timeTillExpire,
 }: {
@@ -24,4 +25,4 @@ export default function PostCard({
       <CountdownTimer targetDate={timeTillExpire} />
     </Card>
   )
-}
+})

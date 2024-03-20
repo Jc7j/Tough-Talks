@@ -13,16 +13,9 @@ import {
   navigationMenuTriggerStyle,
 } from '@/components/ui/navigation-menu'
 import { Dialog, DialogContent, DialogTrigger } from '@/components/ui/dialog'
-import {
-  Drawer,
-  DrawerContent,
-  DrawerDescription,
-  DrawerHeader,
-  DrawerTitle,
-  DrawerTrigger,
-} from '@/components//ui/drawer'
-import CreatePost from './create-post'
-import { Button } from '../ui/button'
+import { Drawer, DrawerContent, DrawerTrigger } from '@/components/ui/drawer'
+import CreatePost from './home/create-post'
+import { Button } from './ui/button'
 import { useDialogOpen } from '@/lib/store/useDialogOpen'
 
 export default function NavMenu() {

@@ -10,9 +10,8 @@ const { getUser } = getKindeServerSession()
 export async function GET() {
   try {
     const posts = await prisma.post.findMany()
-    const postsWithNewKey = posts.map(post => ({...post, isNew: false}))
-    
-    return NextResponse.json(postsWithNewKey.reverse(), { status: 200 })
+
+    return NextResponse.json(posts, { status: 200 })
   } catch (error) {
     console.error('Failed to fetch posts:', error)
     return NextResponse.json(
@@ -61,9 +60,16 @@ export async function POST(req: Request) {
       },
     })
 
-    await pusherServer.trigger('posts-channel', 'post-created', {content, timeTillExpire, authorId: kindeUser?.id})
+    await pusherServer.trigger('posts-channel', 'post-created', {
+      content,
+      timeTillExpire,
+      authorId: kindeUser?.id,
+    })
 
-    return NextResponse.json({ message: `Post is created: ${content}` }, { status: 200 })
+    return NextResponse.json(
+      { message: `Post is created: ${content}` },
+      { status: 200 }
+    )
   } catch (error) {
     console.error('Failed to create post:', error)
     return NextResponse.json(
