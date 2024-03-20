@@ -4,6 +4,7 @@ import React, { useEffect, useState, useRef } from 'react'
 
 import { Post } from '@/lib/definitions'
 import PostCard from './post-card'
+import { pusherClient } from '@/lib/pusher'
 
 export default function PostsContainer() {
   const [posts, setPosts] = useState<Post[]>([])
@@ -13,6 +14,7 @@ export default function PostsContainer() {
   }>({})
 
   useEffect(() => {
+    // Initial fetch for the posts
     async function fetchPosts() {
       try {
         const response = await fetch('/api/posts', {
@@ -34,8 +36,20 @@ export default function PostsContainer() {
     }
 
     fetchPosts()
+    
+    // Real-time subscription to the posts
+    pusherClient.subscribe('posts-channel')
+    pusherClient.bind('post-created', (data: any) => {
+      setPosts((prevPosts) => [{...data, isNew: true}, ...prevPosts])
+    })
+    
+    return () => {
+      pusherClient.unbind_all()
+      pusherClient.unsubscribe('posts-channel')
+    }
   }, [])
 
+  // Animation scrolls
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
@@ -90,11 +104,12 @@ export default function PostsContainer() {
 
   return (
     <div className="grid grid-cols-1 mx-4 gap-x-10 gap-y-4 items-center my-3 justify-center bg-red-50 lg:grid-cols-customCard">
-      {[...posts].reverse().map((post, index) => (
+      {posts.map((post, index) => (
         <div
           ref={(el) => (postRefs.current[index] = el)}
           key={post.id}
           data-post-id={post.id}
+          className={post.isNew ? 'animate-tilt-in' : ''}
         >
           <PostCard
             id={post.id}
