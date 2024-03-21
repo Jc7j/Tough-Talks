@@ -30,10 +30,6 @@ export default function BasicInfo() {
   const [savedSuccessMessage, setSavedSuccessMessage] = useState('')
   const { name, email, fetchUserPersonalInfo } = useUserPersonalInfoStore()
 
-  useEffect(() => {
-    fetchUserPersonalInfo()
-  }, [name, email, fetchUserPersonalInfo])
-
   const form = useForm<z.infer<typeof UpdateSettingsFormSchema>>({
     resolver: zodResolver(UpdateSettingsFormSchema),
     defaultValues: {
@@ -43,11 +39,20 @@ export default function BasicInfo() {
   })
 
   const {
+    reset,
     control,
     register,
     handleSubmit,
     formState: { errors },
   } = form
+
+  useEffect(() => {
+    fetchUserPersonalInfo()
+    reset({
+      name,
+      email
+    })
+  }, [name, email, fetchUserPersonalInfo, reset])
 
   async function onSubmitHandler(
     data: z.infer<typeof UpdateSettingsFormSchema>
