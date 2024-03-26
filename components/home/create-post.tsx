@@ -62,8 +62,6 @@ export default function CreatePost() {
   }, [watch, debouncedUpdateCharCount])
 
   async function onSubmitHandler(data: z.infer<typeof CreatePostFormSchema>) {
-    const timeTillExpire = new Date(Date.now() + 24 * 60 * 60 * 1000)
-    const updatedData = { ...data, timeTillExpire }
     try {
       const res = await fetch('/api/posts', {
         method: 'POST',
@@ -71,7 +69,7 @@ export default function CreatePost() {
         headers: {
           'Content-Type': 'applcation/json',
         },
-        body: JSON.stringify(updatedData),
+        body: JSON.stringify(data),
       })
 
       if (!res.ok) {

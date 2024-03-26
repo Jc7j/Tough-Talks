@@ -1,8 +1,8 @@
 export type Post = {
   id: string
   content: string
-  timeTillExpire: string
   isNew?: boolean
+  createdAt: string
 }
 
 export type User = {

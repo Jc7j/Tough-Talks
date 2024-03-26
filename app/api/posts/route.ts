@@ -39,7 +39,7 @@ export async function POST(req: Request) {
 
     // If no active post, create a new post
     const kindeUser = await getUser()
-    const { content, timeTillExpire } = (await req.json()) as Post
+    const { content } = (await req.json()) as Post
 
     const userExists = await prisma.user.findUnique({
       where: { id: kindeUser?.id },
@@ -55,14 +55,12 @@ export async function POST(req: Request) {
     await prisma.post.create({
       data: {
         content,
-        timeTillExpire,
         authorId: kindeUser?.id || '',
       },
     })
 
     await pusherServer.trigger('posts-channel', 'post-created', {
       content,
-      timeTillExpire,
       authorId: kindeUser?.id,
     })
 

@@ -50,19 +50,9 @@ export default function PostsContainer() {
       }, 1000) // Match animation duration
     })
 
-    // Filter out expired posts
-    const interval = setInterval(() => {
-      setPosts((currentPosts) => {
-        const now = new Date();
-        return currentPosts.filter((post) => new Date(post.timeTillExpire) > now);
-      });
-    }, 3600000); // Check every hour
-
-
     return () => {
       pusherClient.unbind_all()
       pusherClient.unsubscribe('posts-channel')
-      clearInterval(interval)
     }
   }, [])
 
@@ -118,7 +108,7 @@ export default function PostsContainer() {
       observer.disconnect()
     }
   }, [posts])
-
+  console.log(posts)
   return (
     <div className="grid grid-cols-1 mx-4 gap-x-10 gap-y-4 items-center my-3 justify-center bg-red-50 lg:grid-cols-customCard">
       {posts.map((post, index) => (
@@ -131,7 +121,6 @@ export default function PostsContainer() {
           <PostCard
             id={post.id}
             content={post.content}
-            timeTillExpire={new Date(post.timeTillExpire)}
           />
         </div>
       ))}
