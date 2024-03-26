@@ -6,8 +6,6 @@ import { getKindeServerSession } from '@kinde-oss/kinde-auth-nextjs/server'
 import { redirect } from 'next/navigation'
 import Image from 'next/image'
 
-// import { ModeToggle } from '../components/ui/theme-toggle'
-
 export default async function Home() {
   const { isAuthenticated } = getKindeServerSession()
 
@@ -17,7 +15,6 @@ export default async function Home() {
 
   return (
     <main className="flex flex-col lg:flex-row justify-center items-center h-screen px-5">
-      {/* <ModeToggle /> */}
       <div className="flex justify-center items-center w-full h-2/5 lg:h-full">
         <Image
           src="/toughtalks-logo.png"

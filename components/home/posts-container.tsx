@@ -50,9 +50,19 @@ export default function PostsContainer() {
       }, 1000) // Match animation duration
     })
 
+    // Filter out expired posts
+    const interval = setInterval(() => {
+      setPosts((currentPosts) => {
+        const now = new Date();
+        return currentPosts.filter((post) => new Date(post.timeTillExpire) > now);
+      });
+    }, 3600000); // Check every hour
+
+
     return () => {
       pusherClient.unbind_all()
       pusherClient.unsubscribe('posts-channel')
+      clearInterval(interval)
     }
   }, [])
 
